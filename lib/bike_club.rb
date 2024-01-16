@@ -40,4 +40,13 @@ class BikeClub
         end
         eligible_bikers
     end
+
+    def record_group_ride(given_ride)
+        group_ride = {}
+        group_ride[:start_time] = Time.new
+        group_ride[:ride] = given_ride
+        group_ride[:members] = bikers_eligible(given_ride)
+
+        group_ride
+    end
 end
