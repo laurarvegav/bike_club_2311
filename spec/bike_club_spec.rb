@@ -31,6 +31,8 @@ RSpec.describe BikeClub do
             expect(@bikeclub1.name).to eq("Roosters")
 
             expect(@bikeclub1.bikers).to eq([])
+
+            expect(@bikeclub1.group_rides).to eq([])
         end
     end
 
@@ -136,5 +138,14 @@ RSpec.describe BikeClub do
             expect(@bikeclub.record_group_ride(@ride0)[:members]).to eq([@bikera, @bikerc])
         end
     end
+    
+    describe "#group_rides" do
+        it "records group rides" do
+            group_ride1 = @bikeclub.record_group_ride(@ride0)
+            group_ride2 = @bikeclub.record_group_ride(@ride1)
 
+            expect(@bikeclub.group_rides.all? {|ride| ride.class == Hash}).to be(true)
+            expect(@bikeclub.group_rides).to eq([group_ride1, group_ride2])
+        end
+    end
 end
