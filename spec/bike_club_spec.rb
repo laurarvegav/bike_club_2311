@@ -17,6 +17,7 @@ RSpec.describe BikeClub do
         @biker.log_ride(@ride2, 60.9)
         @biker.log_ride(@ride2, 61.6)
         @biker2.log_ride(@ride2, 65.0)
+        @biker2.log_ride(@ride2, 60.0)
     end
     describe "#initialize" do
         it 'exists' do
@@ -45,6 +46,15 @@ RSpec.describe BikeClub do
             @bikeclub1.add_biker(@biker2)
             
             expect(@bikeclub1.most_rides).to eq(@biker)
+        end
+    end
+
+    describe "#best_time(ride)" do
+        it "can tell us which Biker has the best time for a given Ride." do
+            @bikeclub1.add_biker(@biker)
+            @bikeclub1.add_biker(@biker2)
+            
+            expect(@bikeclub1.best_time(@ride2)).to eq(@biker2)
         end
     end
 end
