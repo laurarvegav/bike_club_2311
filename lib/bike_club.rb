@@ -28,6 +28,16 @@ class BikeClub
                 best_time = time
             end
         end
-    best_biker
-  end
+        best_biker
+    end
+
+    def bikers_eligible(given_ride)
+        eligible_bikers = []
+        @bikers.each do |biker|      
+            if biker.eligible_ride?(given_ride)
+                eligible_bikers << biker 
+            end
+        end
+        eligible_bikers
+    end
 end
