@@ -86,6 +86,55 @@ RSpec.describe BikeClub do
 
             expect(@bikeclub1.bikers_eligible(@ride2)).to eq([@biker, @biker2, @biker3])
         end
-
     end
+
+    before do
+        @bikeclub = BikeClub.new("Roosters")
+        @bikera = Biker.new("Kenny", 30)
+        @bikerb = Biker.new("Athena", 15)
+        @bikerc = Biker.new("Mario", 100)
+        @ride0 = Ride.new({name: "Walnut Creek Trail", distance: 10.7, loop: false, terrain: :hills})
+        @ride01 = Ride.new({name: "Town Lake", distance: 14.9, loop: true, terrain: :gravel})
+        @bikeclub.add_biker(@bikera)
+        @bikeclub.add_biker(@bikerb)
+        @bikeclub.add_biker(@bikerc)
+        @bikera.learn_terrain!(:gravel)
+        @bikera.learn_terrain!(:hills)
+        @bikerb.learn_terrain!(:gravel)
+        @bikerc.learn_terrain!(:hills)
+        @bikera.log_ride(@ride0, 92.5)
+        @bikera.log_ride(@ride01, 91.1)
+        @bikera.log_ride(@ride01, 60.9)
+        @bikera.log_ride(@ride01, 61.6)
+        @bikerb.log_ride(@ride01, 65.0)
+        @bikerb.log_ride(@ride01, 60.0)
+        @bikerc.log_ride(@ride0, 89.8)
+        @bikerc.log_ride(@ride01, 60.4)
+    end
+
+    describe "#record_group_ride(ride)" do
+        it "returns a hash" do
+
+            expect(@bikeclub.record_group_ride(@ride0)).to be_a(Hash)
+        end
+
+        it "returns a hash with start_time as key, pointing to a value of the ride's start time (a Time object)" do
+
+            expect(@bikeclub.record_group_ride(@ride0)[:start_time]).to be_a(Time)
+        end
+
+        it "returns a hash with ride as key, pointing to a value of a Ride object" do
+
+            expect(@bikeclub.record_group_ride(@ride0)[:ride]).to be_a(Ride)
+            expect(@bikeclub.record_group_ride(@ride0)[:ride]).to eq(@ride0)
+        end
+
+        it "returns a hash with members as key, pointing to a value of an Array of Biker objects." do
+
+            expect(@bikeclub.record_group_ride(@ride0)[:members]).to be_a(Array)
+            expect(@bikeclub.record_group_ride(@ride0)[:members].all? {|member| member.class == Biker}).to be(true)
+            expect(@bikeclub.record_group_ride(@ride0)[:members]).to eq([@bikera, @bikerc])
+        end
+    end
+
 end
