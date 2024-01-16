@@ -53,4 +53,24 @@ class BikeClub
         @group_rides << group_ride
         group_ride
     end
+
+    def finish_rider_time(biker, ride)
+        start_time = nil
+        
+        duration_time = Time.new - start_time
+        
+        @group_rides.each do |group_ride|
+            group_ride[:start_time] if group_ride[:ride] == ride
+        end
+
+        biker.log_ride(ride, duration_timetime)
+    end
+
+    def self.best_rider
+        best_riders = []
+        @group_rides.each do |group_ride|
+            best_riders << best_time(group_ride[:ride])
+        end
+        best_riders.mode
+    end
 end
