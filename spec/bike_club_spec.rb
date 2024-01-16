@@ -148,4 +148,13 @@ RSpec.describe BikeClub do
             expect(@bikeclub.group_rides).to eq([group_ride1, group_ride2])
         end
     end
+
+    describe "#self.best_rider" do
+        it "can return the rider with the best times across all BikeClub instances." do
+            group_ride1 = @bikeclub.record_group_ride(@ride0)
+            group_ride2 = @bikeclub.record_group_ride(@ride1)
+
+            expect(BikeClub.best_rider).to be_a(Biker)
+        end
+    end
 end
