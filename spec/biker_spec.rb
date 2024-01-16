@@ -34,6 +34,35 @@ RSpec.describe Biker do
         end
     end
 
+    describe "eligible_distance?" do
+        it "evaluates if a ride is eligible" do
+            expect(@biker.eligible_distance?(@ride1)).to eq(true)
+            expect(@biker2.eligible_distance?(@ride1)).to eq(false)
+
+            expect(@biker.eligible_distance?(@ride2)).to eq(true)
+            expect(@biker2.eligible_distance?(@ride2)).to eq(true)
+        end
+    end
+
+    describe "acceptable terrain?" do
+        it "evaluates if a ride is eligible" do
+
+            expect(@biker.acceptable_terrain?(@ride1)).to eq(false)
+            expect(@biker2.acceptable_terrain?(@ride1)).to eq(false)
+
+            @biker.learn_terrain!(:gravel)
+            @biker.learn_terrain!(:hills)
+            
+            expect(@biker.acceptable_terrain?(@ride1)).to eq(true)
+            expect(@biker.acceptable_terrain?(@ride2)).to eq(true)
+            expect(@biker2.acceptable_terrain?(@ride2)).to eq(false)
+
+            @biker2.learn_terrain!(:gravel)
+
+            expect(@biker2.acceptable_terrain?(@ride2)).to eq(true)
+        end
+    end
+
     describe "#log_ride(ride, time)" do
         it "can log a ride when ride's terrain is acceptable, and if they can ride that distance. And return the updated hash" do
             @biker.learn_terrain!(:gravel)
